@@ -1,0 +1,779 @@
+/* 테이블 스타일링 */
+
+/* 테이블 래퍼 */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 기본 테이블 스타일 */
+.data-table {
+  width: auto;
+  min-width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  background-color: var(--background-color);
+  table-layout: auto;
+}
+
+/* 테이블 헤더 */
+.data-table thead {
+  background-color: var(--surface-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.data-table th {
+  padding: var(--spacing-md) var(--spacing-sm);
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+  position: relative;
+  user-select: none;
+}
+
+/* 컬럼 헤더 컨테이너 */
+.header-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.column-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.column-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.type-selector {
+  padding: 2px 4px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background-color: var(--background-color);
+  font-size: 11px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.type-selector:hover {
+  border-color: var(--primary-color);
+}
+
+.type-selector:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.data-table th:hover {
+  background-color: var(--border-color);
+  cursor: pointer;
+}
+
+.data-table th.sortable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.data-table th.sortable:hover {
+  background-color: var(--border-color);
+}
+
+.data-table th.sortable::after {
+  content: "↕";
+  position: absolute;
+  right: var(--spacing-sm);
+  opacity: 0.5;
+  font-size: 12px;
+}
+
+.data-table th.sort-asc::after {
+  content: "↑";
+  opacity: 1;
+  color: var(--primary-color);
+}
+
+.data-table th.sort-desc::after {
+  content: "↓";
+  opacity: 1;
+  color: var(--primary-color);
+}
+
+/* 테이블 데이터 행 */
+.data-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s ease;
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--surface-color);
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: rgba(248, 250, 252, 0.5);
+}
+
+.data-table tbody tr:nth-child(even):hover {
+  background-color: var(--surface-color);
+}
+
+/* 테이블 셀 */
+.data-table td {
+  padding: var(--spacing-md) var(--spacing-sm);
+  border-right: 1px solid var(--border-color);
+  vertical-align: top;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.data-table td:last-child {
+  border-right: none;
+}
+
+/* 스크롤 가능한 셀 컨텐츠 */
+.data-table td .cell-content {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  max-height: 100px;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.data-table td .cell-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.data-table td .cell-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.data-table td .cell-content::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.data-table td .cell-content::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+
+/* 셀 호버 시 전체 내용 표시 */
+.data-table td:hover .cell-content {
+  max-height: 200px;
+  overflow: auto;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+  position: relative;
+}
+
+/* 긴 텍스트 툴팁 */
+.data-table td .cell-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--text-primary);
+  color: var(--background-color);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 4px;
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  margin-top: 4px;
+}
+
+.data-table td:hover .cell-tooltip {
+  opacity: 1;
+}
+
+/* 데이터 타입별 스타일링 */
+.data-table td[data-type="string"] {
+  color: var(--text-primary);
+}
+
+.data-table td[data-type="number"] {
+  color: var(--primary-color);
+  font-weight: 500;
+  text-align: right;
+}
+
+.data-table td[data-type="boolean"] {
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.data-table td[data-type="null"],
+.data-table td[data-type="undefined"] {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.data-table td[data-type="object"],
+.data-table td[data-type="array"] {
+  color: var(--warning-color);
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 12px;
+  background-color: var(--surface-color);
+  border-radius: 4px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin: var(--spacing-xs) 0;
+}
+
+/* 중첩된 객체/배열 표시 */
+.data-table td .nested-content {
+  max-height: 100px;
+  overflow-y: auto;
+  background-color: var(--surface-color);
+  border-radius: 4px;
+  padding: var(--spacing-sm);
+  margin: var(--spacing-xs) 0;
+  border: 1px solid var(--border-color);
+}
+
+/* 중첩 테이블 스타일 */
+.data-table td .nested-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 8px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--background-color);
+}
+
+.data-table td .nested-content table thead {
+  background-color: var(--surface-color);
+}
+
+.data-table td .nested-content table th {
+  padding: 8px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 12px;
+}
+
+.data-table td .nested-content table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 12px;
+  white-space: nowrap;
+  max-width: none;
+}
+
+.data-table td .nested-content table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table td .nested-content.expanded {
+  max-height: none;
+}
+
+.data-table td .expand-toggle {
+  color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: var(--spacing-xs);
+}
+
+.data-table td .expand-toggle:hover {
+  text-decoration: underline;
+}
+
+/* 긴 텍스트 처리 */
+.data-table td .text-truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.data-table td .text-expandable {
+  cursor: pointer;
+  position: relative;
+}
+
+.data-table td .text-expandable:hover {
+  background-color: var(--surface-color);
+  border-radius: 4px;
+  padding: var(--spacing-xs);
+  margin: calc(-1 * var(--spacing-xs));
+}
+
+/* 테이블 정보 표시 */
+.table-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.table-info .row-count {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.table-info .column-count {
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+/* 테이블 상태 표시 */
+.table-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 4px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.table-status--success {
+  background-color: rgba(22, 163, 74, 0.1);
+  color: var(--success-color);
+}
+
+.table-status--error {
+  background-color: rgba(220, 38, 38, 0.1);
+  color: var(--error-color);
+}
+
+.table-status--warning {
+  background-color: rgba(217, 119, 6, 0.1);
+  color: var(--warning-color);
+}
+
+/* 반응형 테이블 */
+@media (max-width: 768px) {
+  .data-table {
+    font-size: 12px;
+    min-width: 500px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: var(--spacing-sm) var(--spacing-xs);
+  }
+
+  .data-table td {
+    max-width: 150px;
+  }
+
+  .data-table td .text-truncate {
+    max-width: 150px;
+  }
+
+  .data-table td .cell-content {
+    max-height: 80px;
+  }
+
+  .data-table td:hover .cell-content {
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .data-table {
+    min-width: 400px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: var(--spacing-xs);
+  }
+
+  .data-table td {
+    max-width: 120px;
+  }
+
+  .data-table td .text-truncate {
+    max-width: 120px;
+  }
+
+  .data-table td .cell-content {
+    max-height: 60px;
+  }
+
+  .data-table td:hover .cell-content {
+    max-height: 120px;
+  }
+}
+
+/* 스크롤바 스타일링 */
+.table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: var(--surface-color);
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+
+/* 테이블 로딩 상태 */
+.table-loading {
+  position: relative;
+}
+
+.table-loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+/* 테이블 애니메이션 */
+.data-table tbody tr {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 테이블 선택 기능 (향후 확장용) */
+.data-table tbody tr.selectable {
+  cursor: pointer;
+}
+
+.data-table tbody tr.selected {
+  background-color: rgba(37, 99, 235, 0.1);
+  border-color: var(--primary-color);
+}
+
+.data-table tbody tr.selected:hover {
+  background-color: rgba(37, 99, 235, 0.15);
+}
+
+/* 테이블 검색 하이라이트 */
+.data-table .highlight {
+  background-color: rgba(255, 235, 59, 0.3);
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+/* 접근성 개선 */
+.data-table th[aria-sort="ascending"]::after {
+  content: "↑ (오름차순)";
+}
+
+.data-table th[aria-sort="descending"]::after {
+  content: "↓ (내림차순)";
+}
+
+.data-table th[aria-sort="none"]::after {
+  content: "↕ (정렬 가능)";
+}
+
+/* 반응형 테이블 스타일 */
+.data-table th,
+.data-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-word;
+}
+
+/* 숫자 컬럼 compact 스타일 */
+.data-table th[data-numeric="true"],
+.data-table td[data-numeric="true"] {
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
+  font-size: 0.8rem;
+  text-align: right;
+  padding: 4px 8px;
+  max-width: 120px;
+  min-width: 60px;
+}
+
+/* 숫자 셀 내용 */
+.data-table td[data-numeric="true"] .cell-content {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* 모바일 테이블 스타일 */
+.data-table.mobile-table {
+  font-size: 0.8rem;
+}
+
+.data-table.mobile-table th,
+.data-table.mobile-table td {
+  padding: var(--spacing-sm);
+  min-width: 80px;
+  max-width: 150px;
+}
+
+/* 테이블 컨테이너 반응형 설정 */
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+/* 작은 화면에서 테이블 최적화 */
+@media (max-width: 768px) {
+  .data-table {
+    min-width: 400px;
+  }
+
+  .data-table th,
+  .data-table td {
+    min-width: 80px;
+    max-width: 120px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.75rem;
+  }
+
+  .table-wrapper {
+    border-radius: 4px;
+  }
+
+  .header-container {
+    gap: 2px;
+  }
+
+  .column-name {
+    font-size: 12px;
+  }
+
+  .type-selector {
+    font-size: 10px;
+    padding: 1px 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .data-table {
+    min-width: 300px;
+  }
+
+  .data-table th,
+  .data-table td {
+    min-width: 60px;
+    max-width: 100px;
+    padding: var(--spacing-xs);
+    font-size: 0.7rem;
+  }
+}
+
+/* 스크롤바 스타일링 */
+.table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: var(--surface-color);
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+
+/* 테이블 크기 조정 애니메이션 */
+.data-table th,
+.data-table td {
+  transition: min-width 0.2s ease, max-width 0.2s ease;
+}
+
+/* 중첩 테이블 스타일 */
+.nested-table {
+  font-size: 12px;
+  margin: 8px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--background-color);
+}
+
+.nested-table th,
+.nested-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: inherit;
+}
+
+.nested-table th {
+  background-color: var(--surface-color);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.nested-table td {
+  vertical-align: top;
+  word-break: break-word;
+}
+
+.nested-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* 배열 테이블 스타일 */
+.array-table {
+  font-size: 12px;
+  margin: 8px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--background-color);
+}
+
+.array-table th,
+.array-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: inherit;
+}
+
+.array-table th {
+  background-color: var(--surface-color);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.array-table td {
+  vertical-align: top;
+  word-break: break-word;
+}
+
+.array-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* 중첩 콘텐츠 스타일 */
+.nested-content {
+  width: 100%;
+}
+
+.nested-content .expand-toggle {
+  color: var(--primary-color);
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.nested-content .expand-toggle:hover {
+  color: var(--primary-hover);
+}
+
+.nested-content .text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+/* 중첩 테이블 애니메이션 */
+.nested-table,
+.array-table {
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 중첩 테이블 반응형 */
+@media (max-width: 768px) {
+  .nested-table,
+  .array-table {
+    font-size: 10px;
+    margin: 4px 0;
+  }
+
+  .nested-table th,
+  .nested-table td,
+  .array-table th,
+  .array-table td {
+    padding: 4px 6px;
+  }
+}
+
+/* 고대비 모드 */
+@media (prefers-contrast: high) {
+  .data-table {
+    border: 2px solid #000000;
+  }
+
+  .data-table th,
+  .data-table td {
+    border-color: #000000;
+  }
+
+  .data-table tbody tr:hover {
+    background-color: #f0f0f0;
+  }
+
+  .nested-table,
+  .array-table {
+    border: 2px solid #000000;
+  }
+
+  .nested-table th,
+  .nested-table td,
+  .array-table th,
+  .array-table td {
+    border-color: #000000;
+  }
+}
