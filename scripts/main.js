@@ -8,6 +8,7 @@ class JSONTableViewer {
         this.jsonParser = null;
         this.tableRenderer = null;
         this.stateManager = null;
+        this.themeManager = null;
         
         // DOM 요소 참조
         this.jsonInput = null;
@@ -37,6 +38,7 @@ class JSONTableViewer {
             this.jsonParser = new JSONParser();
             this.tableRenderer = new TableRenderer();
             this.stateManager = new StateManager();
+            this.themeManager = new ThemeManager();
 
             // DOM 요소 참조 설정
             this.initializeDOMElements();
